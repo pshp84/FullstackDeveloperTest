@@ -1,0 +1,16 @@
+<div mat-dialog-header>
+  <p mat-dialog-title>{{ data.isEdit ? 'Edit User' : 'Add User' }}</p>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="userForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Please enter name" formControlName="name" />
+      <mat-error *ngIf="userForm.get('name')?.hasError('required')">Name is required</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="userForm.invalid">Save</button>
+</div>

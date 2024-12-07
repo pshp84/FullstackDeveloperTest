@@ -1,0 +1,50 @@
+<mat-card *ngIf="selectedUser$ | async as user">
+  <mat-card-title
+    style="font-size: 18px; font-weight: bold; color: #333; margin-top:10px; margin-bottom: 12px; margin-left:15px;">
+    {{ user.name }}'s Orders
+  </mat-card-title>
+  <mat-card-content>
+    <div *ngIf="orders.length > 0; else noOrders">
+      <table mat-table [dataSource]="orders" class="mat-elevation-z8" style="width: 100%; margin-top: 16px;">
+        <!-- Order ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> Order ID </th>
+          <td mat-cell *matCellDef="let order"> {{ order.id }} </td>
+          <td mat-footer-cell *matFooterCellDef>
+            <strong>Total:</strong>
+          </td>
+        </ng-container>
+
+        <!-- Total Amount Column -->
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total ($) </th>
+          <td mat-cell *matCellDef="let order"> {{ order.total | number: '1.2-2' }} </td>
+          <td mat-footer-cell *matFooterCellDef>
+            <strong>{{ totalOrderAmount | number: '1.2-2' }}</strong>
+          </td>
+        </ng-container>
+
+        <!-- Table Header -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <!-- Table Rows -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Table Footer -->
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+    </div>
+
+    <!-- No Orders Found -->
+    <ng-template #noOrders>
+      <p style="font-size: 14px; color: #888; text-align: center;">No orders found for this user.</p>
+    </ng-template>
+  </mat-card-content>
+
+  <!-- Modal Actions -->
+  <mat-card-actions style="margin-top: 16px; display: flex; margin-right:5px; justify-content: flex-end;">
+    <button mat-raised-button color="warn" (click)="closeDialog()" style="text-transform: capitalize;">
+      Close
+    </button>
+  </mat-card-actions>
+</mat-card>
